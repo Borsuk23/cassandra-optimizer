@@ -1,0 +1,11 @@
+	SELECT * FROM group_join_dates
+		WHERE groupname = ?
+		ORDER BY joined DESC
+		LIMIT 10;
+
+	SELECT * FROM test
+		WHERE groupname <> ?
+And test<2
+or sia>=1
+		ORDER BY joined DESC
+and test ASC
