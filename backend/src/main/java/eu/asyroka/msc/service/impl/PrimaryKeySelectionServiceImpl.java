@@ -2,12 +2,14 @@ package eu.asyroka.msc.service.impl;
 
 import eu.asyroka.msc.model.*;
 import eu.asyroka.msc.service.PrimaryKeySelectionService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by zason on 4/24/2017.
  */
+@Service
 public class PrimaryKeySelectionServiceImpl implements PrimaryKeySelectionService {
 	@Override
 	public SchemaProjectionRanking calculatePrimaryKeys(Schema schema, List<Query> queries) {

@@ -1,13 +1,13 @@
 CREATE TABLE test (
- column1 string,
+ groupname string,
 column2 numeric,
 column3      date
 )
 
 
 
-CREATE TABLE test2 (
- column11 string,
+CREATE TABLE group_join_dates (
+ groupname string,
 column22 numeric,    
 column33      date
 )

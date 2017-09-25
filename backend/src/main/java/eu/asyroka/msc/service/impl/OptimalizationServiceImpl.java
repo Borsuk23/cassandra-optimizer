@@ -3,14 +3,18 @@ package eu.asyroka.msc.service.impl;
 import eu.asyroka.msc.model.BenchmarkResult;
 import eu.asyroka.msc.model.Query;
 import eu.asyroka.msc.model.Schema;
+import eu.asyroka.msc.model.SchemaProjection;
 import eu.asyroka.msc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Projection;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class OptimalizationServiceImpl implements OptimalizationService {
 
 
@@ -32,22 +36,18 @@ public class OptimalizationServiceImpl implements OptimalizationService {
 
     @Override
     public List<BenchmarkResult> generateOptimizedSchemas(String schemasPath, String queriesPath) throws Exception {
-        List<Query> inputQueries;
-        List<Schema> inputSchemas = new ArrayList<>();
-
-        List<Schema> generatedSchemas;
 
         try {
-
             if (cassandraInputValidator.validateInput(schemasPath, queriesPath)) {
-                inputSchemas.add(dataParserService.parseSchemaFromFile(schemasPath));
-                inputQueries = dataParserService.parseQueriesFromFile(queriesPath);
+                Schema inputSchema = dataParserService.parseSchemaFromFile(schemasPath);
+                List<Query> inputQueries = dataParserService.parseQueriesFromFile(queriesPath);
 
-                generatedSchemas = projectionGenerator.generateSchemas(inputSchemas, inputQueries);
+                List<SchemaProjection> schemaProjections = projectionGenerator.generateSchemas(inputSchema, inputQueries);
+                List<SchemaProjection> mergedProjections = projectionGenerator.mergeProjections(schemaProjections);
 
-                generatedSchemas = rankingService.prioritizeSchemas(generatedSchemas);
+                mergedProjections = rankingService.prioritizeSchemas(mergedProjections);
 
-                List<BenchmarkResult> benchmarkResults = benchmarkService.benchmarkSchemas(generatedSchemas, inputQueries);
+                List<BenchmarkResult> benchmarkResults = benchmarkService.benchmarkSchemas(mergedProjections, inputQueries);
 
                 return benchmarkResults;
             } else {

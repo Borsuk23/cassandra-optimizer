@@ -1,9 +1,9 @@
 package eu.asyroka.msc.service;
 
-import eu.asyroka.msc.model.Schema;
+import eu.asyroka.msc.model.SchemaProjection;
 
 import java.util.List;
 
 public interface RankingService {
-    List<Schema> prioritizeSchemas(List<Schema> inputSchemas);
+    List<SchemaProjection> prioritizeSchemas(List<SchemaProjection> inputProjections);
 }
