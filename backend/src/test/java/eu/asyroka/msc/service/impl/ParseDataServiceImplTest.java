@@ -1,7 +1,7 @@
 package eu.asyroka.msc.service.impl;
 
 import eu.asyroka.msc.model.*;
-import eu.asyroka.msc.service.DataParserService;
+import eu.asyroka.msc.service.ParseDataService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,12 +17,12 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DataParserServiceImplTest {
+public class ParseDataServiceImplTest {
 
 
 	@Autowired
 	private
-	DataParserService service;
+	ParseDataService service;
 
 	@Test
 	public void parseSchemaFromFile() throws Exception {
@@ -30,14 +30,14 @@ public class DataParserServiceImplTest {
 
 		Schema expectedSchema = new Schema();
 		Table table1 = new Table("test");
-		table1.getColumns().add(new Column("column1", Type.STRING));
+		table1.getColumns().add(new Column("groupname", Type.STRING));
 		table1.getColumns().add(new Column("column2", Type.NUMERIC));
 		table1.getColumns().add(new Column("column3", Type.DATE));
 
 		expectedSchema.getTables().add(table1);
 
-		Table table2 = new Table("test2");
-		table2.getColumns().add(new Column("column11", Type.STRING));
+		Table table2 = new Table("group_join_dates");
+		table2.getColumns().add(new Column("groupname", Type.STRING));
 		table2.getColumns().add(new Column("column22", Type.NUMERIC));
 		table2.getColumns().add(new Column("column33", Type.DATE));
 

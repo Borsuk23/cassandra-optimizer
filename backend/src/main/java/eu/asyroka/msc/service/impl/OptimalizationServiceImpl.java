@@ -6,11 +6,9 @@ import eu.asyroka.msc.model.Schema;
 import eu.asyroka.msc.model.SchemaProjection;
 import eu.asyroka.msc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.Projection;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,10 +20,10 @@ public class OptimalizationServiceImpl implements OptimalizationService {
     private CassandraInputValidator cassandraInputValidator;
 
     @Autowired
-    private DataParserService dataParserService;
+    private ParseDataService parseDataService;
 
     @Autowired
-    private ProjectionGenerator projectionGenerator;
+    private ProjectionService projectionService;
 
     @Autowired
     private RankingService rankingService;
@@ -39,13 +37,13 @@ public class OptimalizationServiceImpl implements OptimalizationService {
 
         try {
             if (cassandraInputValidator.validateInput(schemasPath, queriesPath)) {
-                Schema inputSchema = dataParserService.parseSchemaFromFile(schemasPath);
-                List<Query> inputQueries = dataParserService.parseQueriesFromFile(queriesPath);
+                Schema inputSchema = parseDataService.parseSchemaFromFile(schemasPath);
+                List<Query> inputQueries = parseDataService.parseQueriesFromFile(queriesPath);
 
-                List<SchemaProjection> schemaProjections = projectionGenerator.generateSchemas(inputSchema, inputQueries);
-                List<SchemaProjection> mergedProjections = projectionGenerator.mergeProjections(schemaProjections);
+                List<SchemaProjection> schemaProjections = projectionService.generateSchemas(inputSchema, inputQueries);
+                List<SchemaProjection> mergedProjections = projectionService.mergeProjections(schemaProjections);
 
-                mergedProjections = rankingService.prioritizeSchemas(mergedProjections);
+                mergedProjections = rankingService.prioritizeProjections(mergedProjections);
 
                 List<BenchmarkResult> benchmarkResults = benchmarkService.benchmarkSchemas(mergedProjections, inputQueries);
 

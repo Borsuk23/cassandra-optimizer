@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class RankingServiceImpl implements RankingService {
     @Override
-    public List<SchemaProjection> prioritizeSchemas(List<SchemaProjection> inputProjections) {
+    public List<SchemaProjection> prioritizeProjections(List<SchemaProjection> inputProjections) {
         return inputProjections;
     }
 }

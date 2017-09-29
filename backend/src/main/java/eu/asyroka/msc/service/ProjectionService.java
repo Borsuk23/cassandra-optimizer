@@ -6,7 +6,7 @@ import eu.asyroka.msc.model.SchemaProjection;
 
 import java.util.List;
 
-public interface ProjectionGenerator {
+public interface ProjectionService {
 
     List<SchemaProjection> generateSchemas(Schema inputSchema, List<Query> inputQueries);
 

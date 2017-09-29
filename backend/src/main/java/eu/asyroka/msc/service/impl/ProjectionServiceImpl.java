@@ -4,18 +4,16 @@ import eu.asyroka.msc.generator.ProjectionGeneratorRulesFactory;
 import eu.asyroka.msc.model.Query;
 import eu.asyroka.msc.model.Schema;
 import eu.asyroka.msc.model.SchemaProjection;
-import eu.asyroka.msc.service.PrimaryKeySelectionService;
-import eu.asyroka.msc.service.ProjectionGenerator;
+import eu.asyroka.msc.service.ProjectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectionGeneratorImpl implements ProjectionGenerator {
+public class ProjectionServiceImpl implements ProjectionService {
 
     @Autowired
     private ProjectionGeneratorRulesFactory projectionGeneratorRulesFactory;

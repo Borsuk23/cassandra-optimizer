@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="optimizeCassandra" name="optimizeCassandra" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <serviceTask id="ParseInputData" name="ParseInputData" activiti:delegateExpression="${ParseData}"></serviceTask>
+    <serviceTask id="GenerateBasicProjections" name="GenerateBasicProjections" activiti:delegateExpression="${GenerateProjections}"></serviceTask>
+    <serviceTask id="MergeProjections" name="MergeProjections" activiti:delegateExpression="${MergeProjections}"></serviceTask>
+    <serviceTask id="PrioritizeProjections" name="PrioritizeProjections" activiti:delegateExpression="${PrioritizeProjections}"></serviceTask>
+    <serviceTask id="BenchmarkProjections" name="BenchmarkProjections" activiti:delegateExpression="${BenchmarkProjections}"></serviceTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="ParseInputData"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="ParseInputData" targetRef="GenerateBasicProjections"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="GenerateBasicProjections" targetRef="MergeProjections"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="MergeProjections" targetRef="PrioritizeProjections"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="PrioritizeProjections" targetRef="BenchmarkProjections"></sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="BenchmarkProjections" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_optimizeCassandra">
+    <bpmndi:BPMNPlane bpmnElement="optimizeCassandra" id="BPMNPlane_optimizeCassandra">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GenerateBasicProjections" id="BPMNShape_GenerateBasicProjections">
+        <omgdc:Bounds height="55.0" width="161.0" x="280.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MergeProjections" id="BPMNShape_MergeProjections">
+        <omgdc:Bounds height="55.0" width="105.0" x="500.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PrioritizeProjections" id="BPMNShape_PrioritizeProjections">
+        <omgdc:Bounds height="55.0" width="105.0" x="680.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="BenchmarkProjections" id="BPMNShape_BenchmarkProjections">
+        <omgdc:Bounds height="55.0" width="121.0" x="850.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1020.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ParseInputData" id="BPMNShape_ParseInputData">
+        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="55.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="110.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="215.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="441.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="605.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="680.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="785.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="850.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="971.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1020.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

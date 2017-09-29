@@ -3,7 +3,9 @@ package eu.asyroka.msc.service.impl;
 import eu.asyroka.msc.exception.CassandraQueryParseException;
 import eu.asyroka.msc.exception.CassandraSchemaParseException;
 import eu.asyroka.msc.model.*;
-import eu.asyroka.msc.service.DataParserService;
+import eu.asyroka.msc.model.input.InputQuery;
+import eu.asyroka.msc.model.input.InputTable;
+import eu.asyroka.msc.service.ParseDataService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +19,18 @@ import java.util.List;
  * Created by asyroka on 4/23/2017.
  */
 @Service
-public class DataParserServiceImpl implements DataParserService {
+public class ParseDataServiceImpl implements ParseDataService {
+
+	@Override
+	public Schema parseSchema(List<InputTable> tables) throws IOException, CassandraSchemaParseException {
+		return null;
+	}
+
+	@Override
+	public List<Query> parseQueries(List<InputQuery> queries) throws IOException, CassandraSchemaParseException, CassandraQueryParseException {
+		return null;
+	}
+
 	@Override
 	public Schema parseSchemaFromFile(String path) throws IOException, CassandraSchemaParseException {
 		String schemaString = new String(Files.readAllBytes(Paths.get(path)));
