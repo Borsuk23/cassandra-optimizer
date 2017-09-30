@@ -8,8 +8,8 @@ import {QueryComponent} from '../query/query.component';
   styleUrls: ['./query-list.component.css']
 })
 export class QueryListComponent implements OnInit {
-  @ViewChildren(QueryComponent) queries: QueryList<QueryComponent>
 
+  queries: String[] = [];
   constructor() {
   }
 
@@ -17,8 +17,6 @@ export class QueryListComponent implements OnInit {
   }
 
   addQuery() {
-    console.log('test');
-    this.queries.toArray().push(new QueryComponent())
-    console.log(this.queries.length);
+    this.queries.push("test");
   }
 }

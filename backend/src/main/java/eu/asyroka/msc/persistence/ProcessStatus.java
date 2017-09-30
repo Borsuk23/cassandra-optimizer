@@ -1,0 +1,10 @@
+package eu.asyroka.msc.persistence;
+
+public enum ProcessStatus {
+	NEW,
+	PARSING_INPUT,
+	GENERATING_PROJECTIONS,
+	MERGING_PROJECTIONS,
+	PRIORITIZING_PROJECTIONS,
+	BENCHMARKING
+}

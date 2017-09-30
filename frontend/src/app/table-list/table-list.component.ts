@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-table-list',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableListComponent implements OnInit {
 
-  constructor() { }
+  tables: String[] = [];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  addTable()
+  {
+    this.tables.push("test");
+  }
 }

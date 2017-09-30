@@ -2,6 +2,7 @@ package eu.asyroka.msc.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by asyroka on 4/23/2017.
  */
 @Data
-public class Query {
+public class Query implements Serializable {
 
 	private List<String> selectColumns = new ArrayList<>();
 	private String fromTableName;

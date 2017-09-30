@@ -6,13 +6,23 @@
           <h4>Optimize Cassandra Schema for following data</h4>
         </div>
         <div class="col-md-offset-10">
-          <button class="btn btn-primary">Optymalizuj</button>
+          <button class="btn btn-primary" (click)="optimize()">Optymalizuj</button>
         </div>
       </div>
       <div class="panel-body">
-        <div class="row">
+        <div [hidden]="!isNew()" class="row">
           <app-table-list></app-table-list>
           <app-query-list></app-query-list>
+        </div>
+
+        <div [hidden]="!isInProgress()" class="row">
+          <div class="col-md-2 col-md-offset-5">
+            <p>Pracujemy nad tym!</p>
+            <button class="btn btn-primary" (click)="resetProcess()">Zacznij od nowa</button>
+          </div>
+        </div>
+        <div [hidden]="!isResultReady()" class="row">
+          <app-benchmark-result></app-benchmark-result>
         </div>
       </div>
     </div>

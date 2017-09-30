@@ -1,5 +1,7 @@
 package eu.asyroka.msc.model.input;
 
-public enum  DataDistribution {
+import java.io.Serializable;
+
+public enum  DataDistribution implements Serializable {
 	NORMAL
 }

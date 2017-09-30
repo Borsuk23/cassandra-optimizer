@@ -22,7 +22,7 @@ public class GenerateProjectionsTask implements JavaDelegate {
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		System.out.println("GenerateProjectionsTask starting --->");
 		Schema schema = (Schema) delegateExecution.getVariable("schema");
-		List<Query> queries = (List<Query>) delegateExecution.getVariable("schema");
+		List<Query> queries = (List<Query>) delegateExecution.getVariable("queries");
 
 		List<SchemaProjection> schemaProjections = projectionService.generateSchemas(schema, queries);
 
