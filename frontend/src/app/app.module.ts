@@ -13,6 +13,7 @@ import { OptimizeFormComponent } from './optimize-form/optimize-form.component';
 import { TableListComponent } from './table-list/table-list.component';
 import { QueryListComponent } from './query-list/query-list.component';
 import { TableComponent } from './table/table.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TableComponent } from './table/table.component';
     OptimizeFormComponent,
     TableListComponent,
     QueryListComponent,
-    TableComponent
+    TableComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,

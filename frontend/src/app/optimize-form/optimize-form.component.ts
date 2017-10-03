@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Headers, RequestOptions} from '@angular/http';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -12,7 +12,9 @@ import 'rxjs/add/operator/toPromise';
 })
 export class OptimizeFormComponent implements OnInit {
   status: String = "NEW";
+  substatuses: String[] = [];
   process: String = "test";
+  intervalId;
 
   constructor(private http: Http) {
   }
@@ -20,8 +22,8 @@ export class OptimizeFormComponent implements OnInit {
   ngOnInit() {
   }
 
+
   optimize() {
-    console.log('tutaj cos wyslac trzeba nie?');
 
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
@@ -53,14 +55,67 @@ export class OptimizeFormComponent implements OnInit {
 		}
 	]
 }`;
-    this.http.post("/api/optimize", body, options)
-      .map(this.extractData)
-      .catch(this.handleErrorObservable);
     this.status = "IN_PROGRESS";
+
+
+    this.http.post('/api/optimize', body, options).subscribe(data => {
+      console.log('Returned: ' + data);
+      this.process = data.json()['processId'];
+      this.intervalId = setInterval(() => {
+        let params = {
+          processId: this.process
+        };
+        this.http.get('/api/status', {params: params}).subscribe(data => {
+          this.processStatusResponse(data.json());
+        });
+      }, 1000);
+    });
+  }
+
+
+  private processStatusResponse(data) {
+    if (data['status'] == 'FINISHED') {
+      this.status = 'FINISHED';
+      this.substatuses.push('FINISHED');
+      clearInterval(this.intervalId);
+    } else if (data['status'] == "ERROR") {
+      this.status = 'ERROR';
+      clearInterval(this.intervalId);
+    } else if (data['status'] == "NEW") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "PARSING_INPUT") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "INPUT_PARSED") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "GENERATING_PROJECTIONS") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "PROJECTIONS_GENERATED") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "MERGING_PROJECTIONS") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "PROJECTIONS_MERGED") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "PRIORITIZING_PROJECTIONS") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "PROJECTIONS_PRIORITIZED") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    } else if (data['status'] == "BENCHMARKING") {
+      this.status = "IN_PROGRESS";
+      this.substatuses.push(data['status']);
+    }
   }
 
   isResultReady() {
-    return this.status == "DONE";
+    return this.status == "FINISHED";
   }
 
   getCurrentProcessStatus() {
@@ -78,16 +133,9 @@ export class OptimizeFormComponent implements OnInit {
   resetProcess() {
     this.process = null;
     this.status = "NEW";
+    clearInterval(this.intervalId);
+    //  TODO: send CANCEL
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body.data || {};
-  }
-
-  private handleErrorObservable (error: Response | any) {
-    console.error(error.message || error);
-    return Observable.throw(error.message || error);
-  }
 
 }

@@ -14,14 +14,20 @@
           <app-table-list></app-table-list>
           <app-query-list></app-query-list>
         </div>
-
         <div [hidden]="!isInProgress()" class="row">
-          <div class="col-md-2 col-md-offset-5">
-            <p>Pracujemy nad tym!</p>
-            <button class="btn btn-primary" (click)="resetProcess()">Zacznij od nowa</button>
+          <div class="row">
+            <div class="col-md-offset-1">
+              <button class="btn btn-primary" (click)="resetProcess()">Zacznij od nowa</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <app-progress-bar></app-progress-bar>
+            </div>
           </div>
         </div>
         <div [hidden]="!isResultReady()" class="row">
+          <button class="btn btn-primary" (click)="resetProcess()">Zacznij od nowa</button>
           <app-benchmark-result></app-benchmark-result>
         </div>
       </div>
