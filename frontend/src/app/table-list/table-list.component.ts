@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {TableComponent} from "../table/table.component";
 
 @Component({
   selector: 'app-table-list',
@@ -7,7 +8,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class TableListComponent implements OnInit {
 
-  tables: String[] = [];
+  tableNumbers = [];
+  @ViewChildren(TableComponent) tables: QueryList<TableComponent>;
 
   constructor() {
   }
@@ -15,8 +17,15 @@ export class TableListComponent implements OnInit {
   ngOnInit() {
   }
 
-  addTable()
-  {
-    this.tables.push("test");
+  addTable() {
+    this.tableNumbers.push("test");
+  }
+
+  getTables() {
+    let results = [];
+    this.tables.forEach(item => {
+      results.push(item.getTable())
+    });
+    return results;
   }
 }

@@ -2,10 +2,10 @@
   <md-card>
     <md-card-content>
       <md-form-field class="full-width">
-        <textarea mdInput placeholder="CSQL"></textarea>
+        <textarea mdInput placeholder="CSQL" [(ngModel)]="tableText"></textarea>
       </md-form-field>
       <md-form-field class="full-width">
-        <input mdInput type="number" placeholder="Liczba rekordów">
+        <input mdInput type="number" placeholder="Liczba rekordów" [(ngModel)]="recordsNo">
       </md-form-field>
     </md-card-content>
   </md-card>

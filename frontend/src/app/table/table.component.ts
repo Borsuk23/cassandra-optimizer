@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MdCardModule} from '@angular/material';
 
 @Component({
@@ -8,9 +8,22 @@ import {MdCardModule} from '@angular/material';
 })
 export class TableComponent implements OnInit {
 
-  constructor() { }
+  tableText = '';
+  recordsNo = 0;
+  dataDistribution = "NORMAL";
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  getTable() {
+    return {
+      table: this.tableText,
+      recordsNo: this.recordsNo,
+      dataDistribution: this.dataDistribution
+    }
   }
 
 }

@@ -9,7 +9,9 @@ import {QueryComponent} from '../query/query.component';
 })
 export class QueryListComponent implements OnInit {
 
-  queries: String[] = [];
+  queryNumbers = [];
+  @ViewChildren(QueryComponent) queries: QueryList<QueryComponent>;
+
   constructor() {
   }
 
@@ -17,6 +19,14 @@ export class QueryListComponent implements OnInit {
   }
 
   addQuery() {
-    this.queries.push("test");
+    this.queryNumbers.push("test");
+  }
+
+  getQueries() {
+    let results = [];
+    this.queries.forEach(item => {
+      results.push(item.getQuery())
+    });
+    return results;
   }
 }
