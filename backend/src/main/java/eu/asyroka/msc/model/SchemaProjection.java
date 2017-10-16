@@ -20,8 +20,7 @@ public class SchemaProjection implements Serializable {
     }
 
     public SchemaProjection(SchemaProjection objectToClone) {
-        this.schema = new Schema();
-        this.schema.getTables().addAll(objectToClone.getSchema().getTables());
+        this.schema = new Schema(objectToClone.getSchema());
         this.queries.addAll(objectToClone.getQueries());
     }
 }

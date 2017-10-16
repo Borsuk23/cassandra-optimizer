@@ -10,10 +10,10 @@ import java.util.List;
 @Component
 @Getter
 public class ProjectionGeneratorRulesFactory {
-    private List<SchemaGenerator> schemaGenerators;
+    private List<ProjectionGeneratorRule> projectionGeneratorRules;
 
     public ProjectionGeneratorRulesFactory() {
-        schemaGenerators = Arrays.asList(
+        projectionGeneratorRules = Arrays.asList(
                 new SinglePartitioningKey()
         );
     }

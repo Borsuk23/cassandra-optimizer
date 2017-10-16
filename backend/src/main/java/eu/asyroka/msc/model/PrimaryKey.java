@@ -11,7 +11,15 @@ import java.util.List;
  */
 @Data
 public class PrimaryKey implements Serializable {
-	private List<String> partitioningKey = new ArrayList<>();
-	private String clusteringKey;
+    private List<String> partitioningKey = new ArrayList<>();
+    private String clusteringKey;
 
+    public PrimaryKey(PrimaryKey objectToClone) {
+        this.partitioningKey.addAll(objectToClone.getPartitioningKey());
+        this.clusteringKey = objectToClone.getClusteringKey();
+    }
+
+
+    public PrimaryKey() {
+    }
 }

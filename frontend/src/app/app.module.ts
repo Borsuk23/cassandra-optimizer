@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdCardModule} from '@angular/material';
-import {MdInputModule} from '@angular/material';
+import {MatCardModule} from '@angular/material';
+import {MatInputModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { QueryComponent } from './query/query.component';
@@ -31,8 +31,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MdCardModule,
-    MdInputModule
+    MatCardModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

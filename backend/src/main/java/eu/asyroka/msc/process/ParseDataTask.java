@@ -25,6 +25,7 @@ public class ParseDataTask implements JavaDelegate {
 	@Autowired
 	private CassandraProcessInstanceRepository repository;
 
+//	execute ParseData task
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		System.out.println("ParseDataTask starting --->");
@@ -38,13 +39,17 @@ public class ParseDataTask implements JavaDelegate {
 		instance.setStatus(ProcessStatus.PARSING_INPUT);
 		repository.save(instance);
 
+//		parse data
 		List<Query> queries = parseDataService.parseQueries(inputQueries);
 		Schema schema = parseDataService.parseSchema(inputTables);
 
+//		save queries and schema to repository
 		instance.setQueries(queries);
 		instance.setSchema(schema);
 		instance.setStatus(ProcessStatus.INPUT_PARSED);
-
+		repository.save(instance);
+		
+//		save process variables
 		delegateExecution.setVariable("queries", queries);
 		delegateExecution.setVariable("schema", schema);
 		System.out.println("---> ParseDataTask ended.");

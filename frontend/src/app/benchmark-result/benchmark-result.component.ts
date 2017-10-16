@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-benchmark-result',
@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BenchmarkResultComponent implements OnInit {
 
-  constructor() { }
+  benchmarkResults = [];
+
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  setResults(data) {
+    data.forEach(item => this.benchmarkResults.push(JSON.stringify(item)));
+  }
+  
+  resetResults(){
+    this.benchmarkResults=[];
   }
 
 }

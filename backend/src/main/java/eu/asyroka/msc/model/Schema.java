@@ -22,8 +22,7 @@ public class Schema implements Serializable {
 			Table clonedTable = new Table(table.getName());
 			PrimaryKey primaryKey = null;
 			if (table.getPrimaryKey() != null) {
-				primaryKey.setClusteringKey(table.getPrimaryKey().getClusteringKey());
-				primaryKey.getPartitioningKey().addAll(table.getPrimaryKey().getPartitioningKey());
+				primaryKey = new PrimaryKey(table.getPrimaryKey());
 			}
 			clonedTable.setPrimaryKey(primaryKey);
 			clonedTable.getColumns().addAll(table.getColumns());

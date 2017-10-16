@@ -26,16 +26,19 @@ public class GenerateProjectionsTask implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		System.out.println("GenerateProjectionsTask starting --->");
+//		read process instance
 		CassandraProcessInstance instance = repository.getInstance(delegateExecution.getProcessInstanceId());
 		instance.setStatus(ProcessStatus.GENERATING_PROJECTIONS);
 
+//		get parsed schema and queries
 		Schema schema = (Schema) delegateExecution.getVariable("schema");
 		List<Query> queries = (List<Query>) delegateExecution.getVariable("queries");
 
-		List<SchemaProjection> schemaProjections = projectionService.generateSchemas(schema, queries);
+		List<SchemaProjection> schemaProjections = projectionService.generateProjections(schema, queries);
 
 		instance.setSchemaProjections(schemaProjections);
 		instance.setStatus(ProcessStatus.PROJECTIONS_GENERATED);
+		repository.save(instance);
 
 		delegateExecution.setVariable("baseProjections", schemaProjections);
 		System.out.println("---> GenerateProjectionsTask ended.");

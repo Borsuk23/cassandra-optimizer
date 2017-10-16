@@ -33,6 +33,7 @@ public class MergeProjectionsTask implements JavaDelegate {
 		List<SchemaProjection> mergedProjections = projectionService.mergeProjections(baseProjections);
 		instance.setMergedProjections(mergedProjections);
 		instance.setStatus(ProcessStatus.PROJECTIONS_MERGED);
+		repository.save(instance);
 
 		delegateExecution.setVariable("mergedProjections", mergedProjections);
 		System.out.println("---> MergeProjectionsTask ended.");

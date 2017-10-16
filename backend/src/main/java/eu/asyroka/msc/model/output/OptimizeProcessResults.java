@@ -1,4 +1,4 @@
-package eu.asyroka.msc.model.input;
+package eu.asyroka.msc.model.output;
 
 import eu.asyroka.msc.persistence.CassandraProcessInstance;
 import lombok.Data;

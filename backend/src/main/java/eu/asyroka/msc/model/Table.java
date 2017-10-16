@@ -19,4 +19,9 @@ public class Table implements Serializable {
 	public Table(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }

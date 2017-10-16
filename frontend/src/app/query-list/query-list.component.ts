@@ -1,5 +1,4 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {MdInputModule} from '@angular/material';
 import {QueryComponent} from '../query/query.component';
 
 @Component({

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProjectionService {
 
-    List<SchemaProjection> generateSchemas(Schema inputSchema, List<Query> inputQueries);
+    List<SchemaProjection> generateProjections(Schema inputSchema, List<Query> inputQueries);
 
     List<SchemaProjection> mergeProjections(List<SchemaProjection> schemaProjections);
 }

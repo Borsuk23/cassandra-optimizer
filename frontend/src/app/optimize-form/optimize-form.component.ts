@@ -15,17 +15,18 @@ import {BenchmarkResultComponent} from "../benchmark-result/benchmark-result.com
   styleUrls: ['./optimize-form.component.css']
 })
 export class OptimizeFormComponent implements OnInit {
-  status: String = "NEW";
-  substatuses: String[] = [];
-  process: String = "test";
+  status:String = "NEW";
+  substatuses:String[] = [];
+  process:String = "test";
   intervalId;
-  @ViewChild(QueryListComponent) queries: QueryListComponent;
-  @ViewChild(TableListComponent) tables: TableListComponent;
-  @ViewChild(ProgressBarComponent) progressBar: ProgressBarComponent;
-  @ViewChild(BenchmarkResultComponent) bechmarkResults: BenchmarkResultComponent;
+  results = [];
+  @ViewChild(QueryListComponent) queries:QueryListComponent;
+  @ViewChild(TableListComponent) tables:TableListComponent;
+  @ViewChild(ProgressBarComponent) progressBar:ProgressBarComponent;
+  @ViewChild(BenchmarkResultComponent) bechmarkResults:BenchmarkResultComponent;
 
 
-  constructor(private http: Http) {
+  constructor(private http:Http) {
   }
 
   ngOnInit() {
@@ -37,10 +38,10 @@ export class OptimizeFormComponent implements OnInit {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let body =
-      {
-        tables: [],
-        queries: []
-      };
+    {
+      tables: [],
+      queries: []
+    };
 
 
     body.tables = this.tables.getTables();
@@ -65,6 +66,9 @@ export class OptimizeFormComponent implements OnInit {
     if (data['status'] == 'FINISHED') {
       this.status = 'FINISHED';
       this.substatuses = data['substatuses'];
+      this.results = data['benchmarkResults'];
+      console.log(this.results);
+      this.bechmarkResults.setResults(this.results);
       clearInterval(this.intervalId);
     } else if (data['status'] == "ERROR") {
       this.status = 'ERROR';
@@ -104,6 +108,8 @@ export class OptimizeFormComponent implements OnInit {
   resetProcess() {
     this.process = null;
     this.status = "NEW";
+    this.results=[];
+    this.bechmarkResults.resetResults();
     clearInterval(this.intervalId);
     //  TODO: send CANCEL
   }

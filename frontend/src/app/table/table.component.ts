@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MdCardModule} from '@angular/material';
+import {MatCardModule} from '@angular/material';
 
 @Component({
   selector: 'app-table',
