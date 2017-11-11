@@ -15,18 +15,19 @@ import {BenchmarkResultComponent} from "../benchmark-result/benchmark-result.com
   styleUrls: ['./optimize-form.component.css']
 })
 export class OptimizeFormComponent implements OnInit {
-  status:String = "NEW";
-  substatuses:String[] = [];
-  process:String = "test";
+  status: String = "NEW";
+  errorMessage: String;
+  substatuses: String[] = [];
+  process: String = "test";
   intervalId;
   results = [];
-  @ViewChild(QueryListComponent) queries:QueryListComponent;
-  @ViewChild(TableListComponent) tables:TableListComponent;
-  @ViewChild(ProgressBarComponent) progressBar:ProgressBarComponent;
-  @ViewChild(BenchmarkResultComponent) bechmarkResults:BenchmarkResultComponent;
+  @ViewChild(QueryListComponent) queries: QueryListComponent;
+  @ViewChild(TableListComponent) tables: TableListComponent;
+  @ViewChild(ProgressBarComponent) progressBar: ProgressBarComponent;
+  @ViewChild(BenchmarkResultComponent) bechmarkResults: BenchmarkResultComponent;
 
 
-  constructor(private http:Http) {
+  constructor(private http: Http) {
   }
 
   ngOnInit() {
@@ -38,10 +39,10 @@ export class OptimizeFormComponent implements OnInit {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let body =
-    {
-      tables: [],
-      queries: []
-    };
+      {
+        tables: [],
+        queries: []
+      };
 
 
     body.tables = this.tables.getTables();
@@ -65,13 +66,12 @@ export class OptimizeFormComponent implements OnInit {
   private processStatusResponse(data) {
     if (data['status'] == 'FINISHED') {
       this.status = 'FINISHED';
-      this.substatuses = data['substatuses'];
       this.results = data['benchmarkResults'];
-      console.log(this.results);
       this.bechmarkResults.setResults(this.results);
       clearInterval(this.intervalId);
     } else if (data['status'] == "ERROR") {
       this.status = 'ERROR';
+      this.errorMessage = data['errorMessage'];
       clearInterval(this.intervalId);
     } else if (data['status'] == "NEW"
       || data['status'] == "PARSING_INPUT"
@@ -87,6 +87,7 @@ export class OptimizeFormComponent implements OnInit {
       this.status = "IN_PROGRESS";
     }
     this.substatuses = data['substatuses'];
+    this.progressBar.updateStatuses(this.substatuses, this.status, this.errorMessage);
   }
 
   isResultReady() {
@@ -102,16 +103,33 @@ export class OptimizeFormComponent implements OnInit {
   }
 
   isInProgress() {
-    return this.status == "IN_PROGRESS";
+    return this.status == "IN_PROGRESS" || this.status == "ERROR";
+  }
+
+  sendCancel(processId) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let body =
+      {
+        processId: processId
+      };
+
+    this.http.post('/api/cancel', body, options);
   }
 
   resetProcess() {
+    this.sendCancel(this.process);
     this.process = null;
     this.status = "NEW";
-    this.results=[];
-    this.bechmarkResults.resetResults();
+    this.results = [];
+    this.substatuses = [];
+    this.errorMessage = null;
+    this.bechmarkResults.reset();
+    this.progressBar.reset();
+    this.tables.reset();
+    this.queries.reset();
     clearInterval(this.intervalId);
-    //  TODO: send CANCEL
+    this.intervalId = null;
   }
 
 

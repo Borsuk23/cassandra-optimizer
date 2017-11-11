@@ -28,4 +28,8 @@ export class QueryListComponent implements OnInit {
     });
     return results;
   }
+
+  reset(){
+  this.queryNumbers=[];
+  }
 }

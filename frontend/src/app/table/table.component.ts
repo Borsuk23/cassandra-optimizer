@@ -8,6 +8,13 @@ import {MatCardModule} from '@angular/material';
 })
 export class TableComponent implements OnInit {
 
+  dataDistributionDictionary = [
+    {value: 'GAUSSIAN', viewValue: 'Gauss'},
+    {value: 'UNIFORM', viewValue: 'Równomierne'},
+    {value: 'FIXED', viewValue: 'Stałe'},
+    {value: 'EXTREME', viewValue: 'Skrajne'},
+    {value: 'EXP', viewValue: 'Wykładnicze'}
+  ];
   tableText = '';
   recordsNo = 0;
   dataDistribution = "NORMAL";

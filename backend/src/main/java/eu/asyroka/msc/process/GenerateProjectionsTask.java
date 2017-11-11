@@ -34,13 +34,18 @@ public class GenerateProjectionsTask implements JavaDelegate {
 		Schema schema = (Schema) delegateExecution.getVariable("schema");
 		List<Query> queries = (List<Query>) delegateExecution.getVariable("queries");
 
-		List<SchemaProjection> schemaProjections = projectionService.generateProjections(schema, queries);
+		try {
+			List<SchemaProjection> schemaProjections = projectionService.generateProjections(schema, queries);
+			instance.setSchemaProjections(schemaProjections);
+			instance.setStatus(ProcessStatus.PROJECTIONS_GENERATED);
+			repository.save(instance);
 
-		instance.setSchemaProjections(schemaProjections);
-		instance.setStatus(ProcessStatus.PROJECTIONS_GENERATED);
-		repository.save(instance);
-
-		delegateExecution.setVariable("baseProjections", schemaProjections);
-		System.out.println("---> GenerateProjectionsTask ended.");
+			delegateExecution.setVariable("baseProjections", schemaProjections);
+			System.out.println("---> GenerateProjectionsTask ended.");
+		} catch (Exception ex) {
+			instance.setErrorMessage(ex.getMessage());
+			instance.setStatus(ProcessStatus.ERROR);
+			throw ex;
+		}
 	}
 }

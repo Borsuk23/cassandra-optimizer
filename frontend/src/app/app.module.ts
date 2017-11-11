@@ -1,19 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatCardModule} from '@angular/material';
-import {MatInputModule} from '@angular/material';
-
-import { AppComponent } from './app.component';
-import { QueryComponent } from './query/query.component';
-import { BenchmarkResultComponent } from './benchmark-result/benchmark-result.component';
-import { OptimizeFormComponent } from './optimize-form/optimize-form.component';
-import { TableListComponent } from './table-list/table-list.component';
-import { QueryListComponent } from './query-list/query-list.component';
-import { TableComponent } from './table/table.component';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import {MatCardModule, MatInputModule} from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+import {AppComponent} from './app.component';
+import {QueryComponent} from './query/query.component';
+import {BenchmarkResultComponent} from './benchmark-result/benchmark-result.component';
+import {OptimizeFormComponent} from './optimize-form/optimize-form.component';
+import {TableListComponent} from './table-list/table-list.component';
+import {QueryListComponent} from './query-list/query-list.component';
+import {TableComponent} from './table/table.component';
+import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {ProgressStepComponent} from './progress-step/progress-step.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     TableListComponent,
     QueryListComponent,
     TableComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    ProgressStepComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +34,12 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     HttpModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

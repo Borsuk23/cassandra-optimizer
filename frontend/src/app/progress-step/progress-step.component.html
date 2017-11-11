@@ -1,0 +1,9 @@
+<li class="list-group-item" id="{{stepId}}"
+    [ngClass]="{'active':isInProgress(), 'list-group-item-success':isDone(), 'list-group-item-danger':isError()}">
+  <div class="row">
+    <div class="col-md-10">{{stepText}}</div>
+    <div class="col-md-1 col-md-offset-1" [hidden]="!isInProgress()"><mat-spinner></mat-spinner></div>
+    <div class="col-md-1 col-md-offset-1" [hidden]="!isDone()"><mat-icon svgIcon="done"></mat-icon></div>
+    <div class="col-md-1 col-md-offset-1" [hidden]="!isError()"><mat-icon svgIcon="error"></mat-icon></div>
+  </div>
+</li>

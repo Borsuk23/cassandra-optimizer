@@ -8,6 +8,7 @@ import eu.asyroka.msc.model.input.InputQuery;
 import eu.asyroka.msc.model.input.InputTable;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,11 +24,17 @@ public class CassandraProcessInstance {
 	private List<SchemaProjection> mergedProjections;
 	private List<SchemaProjection> prioritizedProjections;
 	private List<BenchmarkResult> benchmarkResults;
+	private List<ProcessStatus> substatuses = new ArrayList<>();
+
+	public void setStatus(ProcessStatus status) {
+		this.status = status;
+		this.substatuses.add(status);
+	}
 
 	public CassandraProcessInstance() {
 	}
 
-	public CassandraProcessInstance(String processId, ProcessStatus status, String errorMessage, List<InputQuery> inputQueries, List<InputTable> inputTables, List<Query> queries, Schema schema, List<SchemaProjection> schemaProjections, List<SchemaProjection> mergedProjections, List<SchemaProjection> prioritizedProjections, List<BenchmarkResult> benchmarkResults) {
+	public CassandraProcessInstance(String processId, ProcessStatus status, String errorMessage, List<InputQuery> inputQueries, List<InputTable> inputTables, List<Query> queries, Schema schema, List<SchemaProjection> schemaProjections, List<SchemaProjection> mergedProjections, List<SchemaProjection> prioritizedProjections, List<BenchmarkResult> benchmarkResults, List<ProcessStatus> substatuses) {
 		this.processId = processId;
 		this.status = status;
 		this.errorMessage = errorMessage;
@@ -39,5 +46,6 @@ public class CassandraProcessInstance {
 		this.mergedProjections = mergedProjections;
 		this.prioritizedProjections = prioritizedProjections;
 		this.benchmarkResults = benchmarkResults;
+		this.substatuses = substatuses;
 	}
 }

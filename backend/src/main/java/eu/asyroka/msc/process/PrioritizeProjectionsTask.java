@@ -28,13 +28,18 @@ public class PrioritizeProjectionsTask implements JavaDelegate {
 		instance.setStatus(ProcessStatus.PRIORITIZING_PROJECTIONS);
 
 		List<SchemaProjection> mergeProjections = (List<SchemaProjection>) delegateExecution.getVariable("mergedProjections");
+		try {
+			List<SchemaProjection> prioritizedProjections = rankingService.prioritizeProjections(mergeProjections);
 
-		List<SchemaProjection> prioritizedProjections = rankingService.prioritizeProjections(mergeProjections);
+			instance.setPrioritizedProjections(prioritizedProjections);
+			instance.setStatus(ProcessStatus.PROJECTIONS_PRIORITIZED);
 
-		instance.setPrioritizedProjections(prioritizedProjections);
-		instance.setStatus(ProcessStatus.PROJECTIONS_PRIORITIZED);
-
-		delegateExecution.setVariable("prioritizedProjections", prioritizedProjections);
-		System.out.println("---> PrioritizeProjectionsTask ended.");
+			delegateExecution.setVariable("prioritizedProjections", prioritizedProjections);
+			System.out.println("---> PrioritizeProjectionsTask ended.");
+		} catch (Exception ex) {
+			instance.setErrorMessage(ex.getMessage());
+			instance.setStatus(ProcessStatus.ERROR);
+			throw ex;
+		}
 	}
 }

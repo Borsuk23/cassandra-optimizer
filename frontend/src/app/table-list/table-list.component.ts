@@ -28,4 +28,8 @@ export class TableListComponent implements OnInit {
     });
     return results;
   }
+
+  reset(){
+    this.tableNumbers=[];
+  }
 }

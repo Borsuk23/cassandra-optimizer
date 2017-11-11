@@ -5,8 +5,9 @@ import eu.asyroka.msc.model.Query;
 import eu.asyroka.msc.model.Schema;
 import eu.asyroka.msc.model.SchemaProjection;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BenchmarkService {
-    List<BenchmarkResult> benchmarkSchemas(List<SchemaProjection> generatedSchemas, List<Query> inputQueries);
+    List<BenchmarkResult> benchmarkSchemas(List<SchemaProjection> generatedSchemas, List<Query> inputQueries) throws IOException, InterruptedException;
 }

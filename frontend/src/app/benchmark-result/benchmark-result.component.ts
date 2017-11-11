@@ -19,8 +19,8 @@ export class BenchmarkResultComponent implements OnInit {
   setResults(data) {
     data.forEach(item => this.benchmarkResults.push(JSON.stringify(item)));
   }
-  
-  resetResults(){
+
+  reset(){
     this.benchmarkResults=[];
   }
 

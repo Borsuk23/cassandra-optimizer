@@ -147,7 +147,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 					case LIMIT:
 						if (word.matches("\\d+")) {
 							query.setLimit(Integer.parseInt(word));
-						} else throw new CassandraQueryParseException();
+						} else throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 						break;
 					case ORDER_BY_DIRECTION:
 						try {
@@ -155,7 +155,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 							orderColumn = null;
 							queryParseStatus = QueriesParseStatus.AND_LIMIT;
 						} catch (IllegalArgumentException ex) {
-							throw new CassandraQueryParseException();
+							throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 						}
 						break;
 					case AND_LIMIT:
@@ -174,6 +174,8 @@ public class ParseDataServiceImpl implements ParseDataService {
 							queryParseStatus = QueriesParseStatus.ORDER_BY_DIRECTION;
 						}
 						break;
+					default:
+						throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 				}
 			}
 		});
@@ -276,7 +278,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 							queryParseStatus = QueriesParseStatus.WHERE_CLAUSE_VALUE;
 							break;
 						} catch (IllegalArgumentException ex) {
-							throw new CassandraQueryParseException();
+							throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 						}
 					case WHERE_CLAUSE_VALUE:
 						if (whereColumn != null && whereOperator != null) {
@@ -308,7 +310,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 					case LIMIT:
 						if (word.matches("\\d+")) {
 							query.setLimit(Integer.parseInt(word));
-						} else throw new CassandraQueryParseException();
+						} else throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 						break;
 					case ORDER_BY_DIRECTION:
 						try {
@@ -316,7 +318,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 							orderColumn = null;
 							queryParseStatus = QueriesParseStatus.AND_LIMIT;
 						} catch (IllegalArgumentException ex) {
-							throw new CassandraQueryParseException();
+							throw new CassandraQueryParseException("Błąd parsowania zapytań CSQL");
 						}
 						break;
 					case AND_LIMIT:
@@ -353,14 +355,14 @@ public class ParseDataServiceImpl implements ParseDataService {
 					if (word.toUpperCase().equals("CREATE")) {
 						schemaParseStatus = SchemaParseStatus.CREATE;
 					} else {
-						throw new CassandraSchemaParseException();
+						throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 				case CREATE:
 					if (word.toUpperCase().equals("TABLE")) {
 						schemaParseStatus = SchemaParseStatus.TABLE_NAME;
 					} else {
-						throw new CassandraSchemaParseException();
+						throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 				case TABLE_NAME:
@@ -368,7 +370,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 						currentTable = new Table(word.toLowerCase());
 						schemaParseStatus = SchemaParseStatus.TABLE_BEGIN;
 					} else {
-						throw new CassandraSchemaParseException();
+						throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 				case TABLE_BEGIN:
@@ -387,7 +389,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 							currentTable = null;
 							break;
 						default:
-							throw new CassandraSchemaParseException();
+							throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 				case COLUMN_NAME:
@@ -395,7 +397,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 						columnNameValue = word.toLowerCase();
 						schemaParseStatus = SchemaParseStatus.COLUMN_TYPE;
 					} else {
-						throw new CassandraSchemaParseException();
+						throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 				case COLUMN_TYPE:
@@ -404,7 +406,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 						columnNameValue = null;
 						schemaParseStatus = SchemaParseStatus.TABLE;
 					} catch (IllegalArgumentException ex) {
-						throw new CassandraSchemaParseException();
+						throw new CassandraSchemaParseException("Błąd parsowania tabel CSQL");
 					}
 					break;
 			}

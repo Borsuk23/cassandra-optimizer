@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MatInputModule} from '@angular/material';
 
 @Component({
   selector: 'app-query',
@@ -10,8 +9,6 @@ export class QueryComponent implements OnInit {
 
   queryText = '';
   queryFrequency = 0;
-  executionTime = 0;
-  importance = 0;
 
   constructor() {
   }
@@ -22,9 +19,7 @@ export class QueryComponent implements OnInit {
   getQuery() {
     return {
       query: this.queryText,
-      frequency: this.queryFrequency,
-      executionTime: this.executionTime,
-      importance: this.importance
+      frequency: this.queryFrequency
     }
   }
 

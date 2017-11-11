@@ -29,13 +29,18 @@ public class MergeProjectionsTask implements JavaDelegate {
 		instance.setStatus(ProcessStatus.MERGING_PROJECTIONS);
 
 		List<SchemaProjection> baseProjections = (List<SchemaProjection>) delegateExecution.getVariable("baseProjections");
+		try {
+			List<SchemaProjection> mergedProjections = projectionService.mergeProjections(baseProjections);
+			instance.setMergedProjections(mergedProjections);
+			instance.setStatus(ProcessStatus.PROJECTIONS_MERGED);
+			repository.save(instance);
 
-		List<SchemaProjection> mergedProjections = projectionService.mergeProjections(baseProjections);
-		instance.setMergedProjections(mergedProjections);
-		instance.setStatus(ProcessStatus.PROJECTIONS_MERGED);
-		repository.save(instance);
-
-		delegateExecution.setVariable("mergedProjections", mergedProjections);
-		System.out.println("---> MergeProjectionsTask ended.");
+			delegateExecution.setVariable("mergedProjections", mergedProjections);
+			System.out.println("---> MergeProjectionsTask ended.");
+		} catch (Exception ex) {
+			instance.setErrorMessage(ex.getMessage());
+			instance.setStatus(ProcessStatus.ERROR);
+			throw ex;
+		}
 	}
 }
