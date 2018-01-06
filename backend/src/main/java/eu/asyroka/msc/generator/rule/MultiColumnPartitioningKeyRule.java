@@ -4,22 +4,25 @@ import eu.asyroka.msc.generator.ProjectionGeneratorRule;
 import eu.asyroka.msc.model.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-public class PartitioningAndClusteringKey implements ProjectionGeneratorRule {
+public class MultiColumnPartitioningKeyRule implements ProjectionGeneratorRule {
 	@Override
 	public Optional<SchemaProjection> generateProjection(Schema schema, Query query) {
-		if (query.getWhereClauses().size() == 2) {
+		if (query.getWhereClauses().size() > 2) {
 			for (Table table : schema.getTables()) {
 				if (table.getName().equalsIgnoreCase(query.getFromTableName())) {
 					PrimaryKey primaryKey = new PrimaryKey();
-
-					boolean done = choosePartitioningKey(query, table, primaryKey);
-					if (done) {
-						done = chooseClusteringKey(query, table, primaryKey);
+					List<String> partitioningKeys = new ArrayList<>();
+					for (int i = 0; i < query.getWhereClauses().size() - 1; i++) {
+						if (!choosePartitioningKeyPart(query, table, partitioningKeys, i)) {
+							return Optional.empty();
+						}
 					}
-					if (done) {
+					primaryKey.setPartitioningKey(partitioningKeys);
+
+					if (chooseClusteringKey(query, table, primaryKey)) {
 						table.setPrimaryKey(primaryKey);
 						SchemaProjection projection = new SchemaProjection();
 						projection.setQueries(new ArrayList<>());
@@ -27,6 +30,7 @@ public class PartitioningAndClusteringKey implements ProjectionGeneratorRule {
 						projection.setSchema(schema);
 						return Optional.of(projection);
 					}
+
 				}
 			}
 		}
@@ -34,9 +38,9 @@ public class PartitioningAndClusteringKey implements ProjectionGeneratorRule {
 	}
 
 	private boolean chooseClusteringKey(Query query, Table table, PrimaryKey primaryKey) {
-		WhereClause whereClause2 = query.getWhereClauses().get(1);
+		WhereClause clusteringClause = query.getWhereClauses().get(query.getWhereClauses().size() - 1);
 		for (Column column : table.getColumns()) {
-			if (column.getName().equalsIgnoreCase(whereClause2.getColumn())) {
+			if (column.getName().equalsIgnoreCase(clusteringClause.getColumn())) {
 				primaryKey.setClusteringKey(column.getName());
 				return true;
 			}
@@ -44,11 +48,10 @@ public class PartitioningAndClusteringKey implements ProjectionGeneratorRule {
 		return false;
 	}
 
-	private boolean choosePartitioningKey(Query query, Table table, PrimaryKey primaryKey) {
-		WhereClause whereClause1 = query.getWhereClauses().get(0);
+	private boolean choosePartitioningKeyPart(Query query, Table table, List<String> partitioningKeys, int i) {
 		for (Column column : table.getColumns()) {
-			if (column.getName().equalsIgnoreCase(whereClause1.getColumn())) {
-				primaryKey.setPartitioningKey(Collections.singletonList(column.getName()));
+			if (column.getName().equalsIgnoreCase(query.getWhereClauses().get(i).getColumn())) {
+				partitioningKeys.add(column.getName());
 				return true;
 			}
 		}

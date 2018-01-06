@@ -58,21 +58,21 @@ export class OptimizeFormComponent implements OnInit {
         this.http.get('/api/status', {params: params}).subscribe(data => {
           this.processStatusResponse(data.json());
         });
-      }, 1000);
+      }, 5000);
     });
   }
 
 
   private processStatusResponse(data) {
     if (data['status'] == 'FINISHED') {
+      clearInterval(this.intervalId);
       this.status = 'FINISHED';
       this.results = data['benchmarkResults'];
       this.bechmarkResults.setResults(this.results);
-      clearInterval(this.intervalId);
     } else if (data['status'] == "ERROR") {
+      clearInterval(this.intervalId);
       this.status = 'ERROR';
       this.errorMessage = data['errorMessage'];
-      clearInterval(this.intervalId);
     } else if (data['status'] == "NEW"
       || data['status'] == "PARSING_INPUT"
       || data['status'] == "INPUT_PARSED"
@@ -119,6 +119,7 @@ export class OptimizeFormComponent implements OnInit {
 
   resetProcess() {
     this.sendCancel(this.process);
+    clearInterval(this.intervalId);
     this.process = null;
     this.status = "NEW";
     this.results = [];
@@ -128,7 +129,6 @@ export class OptimizeFormComponent implements OnInit {
     this.progressBar.reset();
     this.tables.reset();
     this.queries.reset();
-    clearInterval(this.intervalId);
     this.intervalId = null;
   }
 

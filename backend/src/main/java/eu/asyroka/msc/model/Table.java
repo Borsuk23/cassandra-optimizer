@@ -1,5 +1,6 @@
 package eu.asyroka.msc.model;
 
+import eu.asyroka.msc.model.input.DataDistribution;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,9 +16,14 @@ public class Table implements Serializable {
 	private List<Column> columns = new ArrayList<>();
 
 	private PrimaryKey primaryKey;
+	private ClusteringOrder clusteringOrder;
+	private int recordsNo;
+	private DataDistribution dataDistribution;
 
-	public Table(String name) {
+	public Table(String name, int recordsNo, DataDistribution dataDistribution) {
 		this.name = name;
+		this.recordsNo = recordsNo;
+		this.dataDistribution = dataDistribution;
 	}
 
 	@Override
@@ -42,6 +48,9 @@ public class Table implements Serializable {
 		}
 
 		builder.append(")");
+		if (clusteringOrder != null) {
+			builder.append(" ").append(clusteringOrder.toString());
+		}
 		return builder.toString();
 	}
 

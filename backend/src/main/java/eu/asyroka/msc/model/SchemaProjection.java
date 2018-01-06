@@ -12,15 +12,16 @@ import java.util.List;
 @Data
 public class SchemaProjection implements Serializable {
 
-    private Schema schema;
-    private List<Query> queries = new ArrayList<>();
+	private Schema schema;
+	private List<Query> queries = new ArrayList<>();
+	private int importance;
 
 
-    public SchemaProjection() {
-    }
+	public SchemaProjection() {
+	}
 
-    public SchemaProjection(SchemaProjection objectToClone) {
-        this.schema = new Schema(objectToClone.getSchema());
-        this.queries.addAll(objectToClone.getQueries());
-    }
+	public SchemaProjection(SchemaProjection objectToClone) {
+		this.schema = new Schema(objectToClone.getSchema());
+		this.queries.addAll(objectToClone.getQueries());
+	}
 }

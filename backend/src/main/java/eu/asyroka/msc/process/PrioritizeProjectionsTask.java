@@ -27,9 +27,9 @@ public class PrioritizeProjectionsTask implements JavaDelegate {
 		CassandraProcessInstance instance = repository.getInstance(delegateExecution.getProcessInstanceId());
 		instance.setStatus(ProcessStatus.PRIORITIZING_PROJECTIONS);
 
-		List<SchemaProjection> mergeProjections = (List<SchemaProjection>) delegateExecution.getVariable("mergedProjections");
+		List<SchemaProjection> mergedProjections = (List<SchemaProjection>) delegateExecution.getVariable("mergedProjections");
 		try {
-			List<SchemaProjection> prioritizedProjections = rankingService.prioritizeProjections(mergeProjections);
+			List<SchemaProjection> prioritizedProjections = rankingService.prioritizeProjections(mergedProjections);
 
 			instance.setPrioritizedProjections(prioritizedProjections);
 			instance.setStatus(ProcessStatus.PROJECTIONS_PRIORITIZED);

@@ -9,5 +9,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface BenchmarkService {
-    List<BenchmarkResult> benchmarkSchemas(List<SchemaProjection> generatedSchemas, List<Query> inputQueries) throws IOException, InterruptedException;
+    List<BenchmarkResult> benchmarkSchemas(List<SchemaProjection> generatedSchemas, List<Query> inputQueries, String processId) throws IOException, InterruptedException;
 }

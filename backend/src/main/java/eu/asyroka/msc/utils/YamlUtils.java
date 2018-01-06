@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +21,8 @@ public class YamlUtils {
 	public YamlUtils() {
 	}
 
-	public static Path prepareYamlFile(Table table, List<Query> queries) throws IOException {
-		Path filePath = Paths.get(YAML_FOLDER + UUID.randomUUID().toString() + EXTENSION_YAML);
+	public static Path prepareYamlFile(Table table, int i, List<Query> queries) throws IOException {
+		Path filePath = Paths.get(YAML_FOLDER +"projection_"+i+"_"+table.getName() + "_"+ Calendar.getInstance().getTimeInMillis() + EXTENSION_YAML);
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile()));
 
@@ -63,19 +64,81 @@ public class YamlUtils {
 		for (Column column : table.getColumns()) {
 			writer.append("  - name:").append(column.getName());
 			writer.newLine();
-			writer.append("    size: gaussian(5..50)");
-			writer.newLine();
+			prepareYamlForColumnSize(column, writer);
 			if (table.getPrimaryKey() != null) {
 				if (table.getPrimaryKey().getPartitioningKey().contains(column.getName())) {
-					writer.append("    population: uniform(1..10000)");
+					writer.append("    population: uniform(1..10M)");
 					writer.newLine();
 				}
 				if (column.getName().equalsIgnoreCase(table.getPrimaryKey().getClusteringKey())) {
-					writer.append("    population: uniform(1..10000)");
-					writer.newLine();
+					prepareYamlForClusteringKey(table, writer);
 				}
 			}
 		}
+	}
+
+	private static void prepareYamlForClusteringKey(Table table, BufferedWriter writer) throws IOException {
+		writer.append("    cluster: ");
+		switch (table.getDataDistribution()) {
+			case GAUSSIAN:
+				writer.append("gaussian(1..200)");
+				break;
+			case UNIFORM:
+				writer.append("uniform(1..200)");
+				break;
+			case FIXED:
+				writer.append("fixed(100)");
+				break;
+			case EXTREME:
+				writer.append("extreme(1..200)");
+				break;
+			case EXP:
+				writer.append("exp(1..200)");
+				break;
+			default:
+				writer.append("uniform(1..200)");
+		}
+		writer.newLine();
+	}
+
+	private static void prepareYamlForColumnSize(Column column, BufferedWriter writer) throws IOException {
+		switch (column.getType()) {
+			case TYPE_BLOB:
+				writer.append("    size: gaussian(5..5000)");
+				writer.newLine();
+				break;
+			case TYPE_FROZEN:
+			case TYPE_LIST:
+			case TYPE_MAP:
+			case TYPE_SET:
+			case TYPE_TUPLE:
+				break;
+			case TYPE_ASCII:
+			case TYPE_TEXT:
+			case TYPE_VARCHAR:
+			case TYPE_VARINT:
+			case TYPE_DECIMAL:
+				writer.append("    size: gaussian(5..50)");
+				writer.newLine();
+				break;
+			case TYPE_BIGINT:
+			case TYPE_BOOLEAN:
+			case TYPE_COUNTER:
+			case TYPE_DATE:
+			case TYPE_TIME:
+			case TYPE_TIMESTAMP:
+			case TYPE_DOUBLE:
+			case TYPE_FLOAT:
+			case TYPE_INET:
+			case TYPE_INT:
+			case TYPE_SMALLINT:
+			case TYPE_TIMEUUID:
+			case TYPE_TINYINT:
+			case TYPE_UUID:
+			default:
+				break;
+		}
+
 	}
 
 	private static void prepareYamlForInsert(Table table, BufferedWriter writer) throws IOException {
@@ -92,9 +155,8 @@ public class YamlUtils {
 	private static void prepareYamlForQueries(List<Query> queries, BufferedWriter writer) throws IOException {
 		writer.append("queries:");
 		writer.newLine();
-		for (int i = 0; i < queries.size(); i++) {
-			Query query = queries.get(i);
-			writer.append("  query_").append(String.valueOf(i));
+		for (Query query : queries) {
+			writer.append("  ").append(query.getQueryName());
 			writer.newLine();
 			writer.append("    cql: ").append(query.toString()).append(" ALLOW FILTERING");
 			writer.newLine();

@@ -19,7 +19,7 @@ public class Schema implements Serializable {
 
 	public Schema(Schema inputSchema) {
 		for (Table table : inputSchema.getTables()) {
-			Table clonedTable = new Table(table.getName());
+			Table clonedTable = new Table(table.getName(), table.getRecordsNo(), table.getDataDistribution());
 			PrimaryKey primaryKey = null;
 			if (table.getPrimaryKey() != null) {
 				primaryKey = new PrimaryKey(table.getPrimaryKey());

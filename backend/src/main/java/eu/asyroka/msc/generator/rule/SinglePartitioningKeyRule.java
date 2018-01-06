@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 
-public class SinglePartitioningKey implements ProjectionGeneratorRule {
+public class SinglePartitioningKeyRule implements ProjectionGeneratorRule {
 
 
 	@Override

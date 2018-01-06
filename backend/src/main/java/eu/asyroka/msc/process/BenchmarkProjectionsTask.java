@@ -33,7 +33,7 @@ public class BenchmarkProjectionsTask implements JavaDelegate {
 		List<Query> queries = (List<Query>) delegateExecution.getVariable("queries");
 
 		try {
-			List<BenchmarkResult> benchmarkResults = benchmarkService.benchmarkSchemas(prioritizedProjections, queries);
+			List<BenchmarkResult> benchmarkResults = benchmarkService.benchmarkSchemas(prioritizedProjections, queries, delegateExecution.getProcessInstanceId());
 			instance.setBenchmarkResults(benchmarkResults);
 			instance.setStatus(ProcessStatus.FINISHED);
 

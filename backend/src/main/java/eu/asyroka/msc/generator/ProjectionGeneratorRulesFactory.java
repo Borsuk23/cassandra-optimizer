@@ -1,8 +1,9 @@
 package eu.asyroka.msc.generator;
 
-import eu.asyroka.msc.generator.rule.MultiColumnPartitioningKey;
-import eu.asyroka.msc.generator.rule.PartitioningAndClusteringKey;
-import eu.asyroka.msc.generator.rule.SinglePartitioningKey;
+import eu.asyroka.msc.generator.rule.ClusteringOrderRule;
+import eu.asyroka.msc.generator.rule.MultiColumnPartitioningKeyRule;
+import eu.asyroka.msc.generator.rule.PartitioningAndClusteringKeyRule;
+import eu.asyroka.msc.generator.rule.SinglePartitioningKeyRule;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,10 @@ public class ProjectionGeneratorRulesFactory {
 
     public ProjectionGeneratorRulesFactory() {
         projectionGeneratorRules = Arrays.asList(
-                new SinglePartitioningKey(),
-                new PartitioningAndClusteringKey(),
-                new MultiColumnPartitioningKey()
+                new SinglePartitioningKeyRule(),
+                new PartitioningAndClusteringKeyRule(),
+                new MultiColumnPartitioningKeyRule(),
+                new ClusteringOrderRule()
         );
     }
 

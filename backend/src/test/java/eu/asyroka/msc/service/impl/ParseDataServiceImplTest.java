@@ -1,6 +1,7 @@
 package eu.asyroka.msc.service.impl;
 
 import eu.asyroka.msc.model.*;
+import eu.asyroka.msc.model.input.DataDistribution;
 import eu.asyroka.msc.service.ParseDataService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,14 +30,14 @@ public class ParseDataServiceImplTest {
 		Schema schema = service.parseSchemaFromFile("schema.txt");
 
 		Schema expectedSchema = new Schema();
-		Table table1 = new Table("test");
+		Table table1 = new Table("test", 1, DataDistribution.FIXED);
 		table1.getColumns().add(new Column("groupname", Type.TYPE_TEXT));
 		table1.getColumns().add(new Column("column2", Type.TYPE_DOUBLE));
 		table1.getColumns().add(new Column("column3", Type.TYPE_DATE));
 
 		expectedSchema.getTables().add(table1);
 
-		Table table2 = new Table("group_join_dates");
+		Table table2 = new Table("group_join_dates", 1, DataDistribution.FIXED);
 		table2.getColumns().add(new Column("groupname", Type.TYPE_TEXT));
 		table2.getColumns().add(new Column("column22", Type.TYPE_DOUBLE));
 		table2.getColumns().add(new Column("column33", Type.TYPE_DATE));
@@ -54,7 +55,7 @@ public class ParseDataServiceImplTest {
 		List<Query> queries = service.parseQueriesFromFile("queries.txt");
 
 		List<Query> expectedQueries = new ArrayList<>();
-		Query query1 = new Query();
+		Query query1 = new Query(1,"query_0");
 		query1.getSelectColumns().add("*");
 		query1.setFromTableName("group_join_dates");
 		query1.getWhereClauses().add(new WhereClause("groupname", Operator.EQUAL, "?"));
@@ -63,7 +64,7 @@ public class ParseDataServiceImplTest {
 		expectedQueries.add(query1);
 
 
-		Query query2 = new Query();
+		Query query2 = new Query(1, "query_0");
 		query2.getSelectColumns().add("*");
 		query2.setFromTableName("test");
 		query2.getWhereClauses().add(new WhereClause("groupname", Operator.NOT_EQUAL, "?"));

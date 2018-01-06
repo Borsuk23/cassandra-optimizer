@@ -18,6 +18,13 @@ public class Query implements Serializable {
 	private List<WhereClause> whereClauses = new ArrayList<>();
 	private List<OrderClause> orderClauses = new ArrayList<>();
 	private Integer limit;
+	private int frequency;
+	private String queryName;
+
+	public Query(int frequency, String queryName) {
+		this.frequency = frequency;
+		this.queryName = queryName;
+	}
 
 	@Override
 	public String toString() {
