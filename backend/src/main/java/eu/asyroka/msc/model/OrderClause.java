@@ -16,4 +16,9 @@ public class OrderClause implements Serializable {
 		this.column = column;
 		this.direction = direction;
 	}
+
+	@Override
+	public String toString() {
+		return column + " " + direction.toString();
+	}
 }

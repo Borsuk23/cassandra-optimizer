@@ -1,18 +1,11 @@
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h5>Wyniki optymalizacji</h5>
-      </div>
-      <div class="panel-body">
-        <div *ngFor="let result of benchmarkResults">
-          <mat-card>
-            <mat-card-content>
-              <p>{{ result }}</p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<mat-card>
+  <mat-card-content>
+    <app-result-projection [tables]="getTables()"></app-result-projection>
+  </mat-card-content>
+  <mat-card-content>
+    <app-result-queries-stats [queriesStats]="getQueriesStats()"></app-result-queries-stats>
+  </mat-card-content>
+  <mat-card-content>
+    <app-result-stress-tool-graph [graph]="getGraph()"></app-result-stress-tool-graph>
+  </mat-card-content>
+</mat-card>

@@ -30,16 +30,16 @@ public class ParseDataServiceImplTest {
 
 		Schema expectedSchema = new Schema();
 		Table table1 = new Table("test");
-		table1.getColumns().add(new Column("groupname", Type.STRING));
-		table1.getColumns().add(new Column("column2", Type.NUMERIC));
-		table1.getColumns().add(new Column("column3", Type.DATE));
+		table1.getColumns().add(new Column("groupname", Type.TYPE_TEXT));
+		table1.getColumns().add(new Column("column2", Type.TYPE_DOUBLE));
+		table1.getColumns().add(new Column("column3", Type.TYPE_DATE));
 
 		expectedSchema.getTables().add(table1);
 
 		Table table2 = new Table("group_join_dates");
-		table2.getColumns().add(new Column("groupname", Type.STRING));
-		table2.getColumns().add(new Column("column22", Type.NUMERIC));
-		table2.getColumns().add(new Column("column33", Type.DATE));
+		table2.getColumns().add(new Column("groupname", Type.TYPE_TEXT));
+		table2.getColumns().add(new Column("column22", Type.TYPE_DOUBLE));
+		table2.getColumns().add(new Column("column33", Type.TYPE_DATE));
 
 		expectedSchema.getTables().add(table2);
 

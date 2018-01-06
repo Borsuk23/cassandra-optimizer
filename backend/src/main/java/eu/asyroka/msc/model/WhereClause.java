@@ -19,4 +19,9 @@ public class WhereClause implements Serializable {
 		this.operator = operator;
 		this.value = value;
 	}
+
+	@Override
+	public String toString() {
+		return column + " " + operator.value() + " " + value;
+	}
 }

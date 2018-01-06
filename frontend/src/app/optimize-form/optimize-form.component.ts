@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import {QueryListComponent} from "../query-list/query-list.component";
 import {TableListComponent} from "../table-list/table-list.component";
 import {ProgressBarComponent} from "../progress-bar/progress-bar.component";
-import {BenchmarkResultComponent} from "../benchmark-result/benchmark-result.component";
+import {BenchmarkResultListComponent} from "../benchmark-result-list/benchmark-result-list.component";
 
 @Component({
   selector: 'app-optimize-form',
@@ -24,7 +24,7 @@ export class OptimizeFormComponent implements OnInit {
   @ViewChild(QueryListComponent) queries: QueryListComponent;
   @ViewChild(TableListComponent) tables: TableListComponent;
   @ViewChild(ProgressBarComponent) progressBar: ProgressBarComponent;
-  @ViewChild(BenchmarkResultComponent) bechmarkResults: BenchmarkResultComponent;
+  @ViewChild(BenchmarkResultListComponent) bechmarkResults: BenchmarkResultListComponent;
 
 
   constructor(private http: Http) {

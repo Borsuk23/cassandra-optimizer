@@ -402,7 +402,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 					break;
 				case COLUMN_TYPE:
 					try {
-						currentTable.getColumns().add(new Column(columnNameValue, Type.valueOf(word.toUpperCase())));
+						currentTable.getColumns().add(new Column(columnNameValue, Type.getByString(word.toUpperCase())));
 						columnNameValue = null;
 						schemaParseStatus = SchemaParseStatus.TABLE;
 					} catch (IllegalArgumentException ex) {

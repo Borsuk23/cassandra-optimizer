@@ -11,5 +11,9 @@ public class BenchmarkResult implements Serializable {
 	private Schema schema;
 	private String result;
 
+	private List<BenchmarkTableResult> results = new ArrayList<>();
+
+
+
 
 }
