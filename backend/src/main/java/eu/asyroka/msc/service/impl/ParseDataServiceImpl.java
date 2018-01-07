@@ -68,7 +68,7 @@ public class ParseDataServiceImpl implements ParseDataService {
 
 				String[] words = queryString.trim().split("\\s+");
 				QueriesParseStatus queryParseStatus = QueriesParseStatus.NONE;
-				Query query = new Query(inputQuery.getFrequency(),"query_"+i);
+				Query query = new Query(inputQuery.getFrequency(),"query_"+i+1);
 				queries.add(query);
 
 				String whereColumn = null;

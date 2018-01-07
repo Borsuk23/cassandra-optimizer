@@ -26,7 +26,7 @@ public class ProjectionServiceImpl implements ProjectionService {
 			Query inputQuery = inputQueries.get(i);
 			schemaProjections.addAll(generateProjections(inputSchema, inputQuery));
 		}
-		return schemaProjections;
+		return createIndexes(schemaProjections, inputQueries);
 	}
 
 	@Override
@@ -36,6 +36,59 @@ public class ProjectionServiceImpl implements ProjectionService {
 		merged = clearSubsetMerges(merged);
 		return merged;
 	}
+
+	@Override
+	public List<SchemaProjection> createIndexes(List<SchemaProjection> schemaProjections, List<Query> inputQueries) {
+		for (SchemaProjection schemaProjection : schemaProjections) {
+			createIndexes(schemaProjection, inputQueries);
+		}
+		return schemaProjections;
+	}
+
+
+	private void createIndexes(SchemaProjection schemaProjection, List<Query> inputQueries) {
+		for (Table table : schemaProjection.getSchema().getTables()) {
+			createMissingIndexes(table, inputQueries);
+		}
+	}
+
+	private void createMissingIndexes(Table table, List<Query> inputQueries) {
+		PrimaryKey primaryKey = table.getPrimaryKey();
+		if (primaryKey != null) {
+			for (Query query : inputQueries) {
+				if (query.getWhereClauses().stream().allMatch(whereClause ->
+						matchClusteringKey(primaryKey, whereClause) ||
+								primaryKey.getPartitioningKey().stream().anyMatch(key -> key.equalsIgnoreCase(whereClause.getColumn()))))
+					continue;
+
+				List<WhereClause> notMatchedClauses = query.getWhereClauses().stream().filter(whereClause ->
+						!matchClusteringKey(primaryKey, whereClause) &&
+								primaryKey.getPartitioningKey().stream().noneMatch(key -> key.equalsIgnoreCase(whereClause.getColumn()))).collect(Collectors.toList());
+
+				for (WhereClause notMatchedClause : notMatchedClauses) {
+					if (table.getIndexes().stream().noneMatch(index -> index.getColumnName().equalsIgnoreCase(notMatchedClause.getColumn()))) {
+						table.getIndexes().add(new SecondaryIndex(table.getName(), table.getName() + "_" + notMatchedClause.getColumn() + "_idx", notMatchedClause.getColumn()));
+					}
+				}
+
+			}
+		} else {
+			for (Query query : inputQueries) {
+				for (WhereClause whereClause : query.getWhereClauses()) {
+					if (table.getIndexes().stream().noneMatch(index -> index.getColumnName().equalsIgnoreCase(whereClause.getColumn()))) {
+						table.getIndexes().add(new SecondaryIndex(table.getName(), table.getName() + "_" + whereClause.getColumn() + "_idx", whereClause.getColumn()));
+					}
+				}
+			}
+		}
+
+
+	}
+
+	private boolean matchClusteringKey(PrimaryKey primaryKey, WhereClause whereClause) {
+		return primaryKey.getClusteringKey() != null && whereClause.getColumn().equalsIgnoreCase(primaryKey.getClusteringKey());
+	}
+
 
 	private List<SchemaProjection> clearSubsetMerges(List<SchemaProjection> merged) {
 		return merged.stream().filter(schemaProjection -> !checkIsSubset(schemaProjection, merged)).collect(Collectors.toList());

@@ -2,6 +2,7 @@ package eu.asyroka.msc.utils;
 
 import eu.asyroka.msc.model.Column;
 import eu.asyroka.msc.model.Query;
+import eu.asyroka.msc.model.SecondaryIndex;
 import eu.asyroka.msc.model.Table;
 import eu.asyroka.msc.service.impl.BenchmarkServiceImpl;
 
@@ -31,6 +32,7 @@ public class YamlUtils {
 
 		prepareYamlForKeyspace(writer);
 		prepareYamlForTableDefinition(table, writer);
+		prepareYamlForIndexes(table, writer);
 
 		prepareYamlForColumnSpec(table, writer);
 		prepareYamlForInsert(table, writer);
@@ -40,6 +42,15 @@ public class YamlUtils {
 		writer.close();
 
 		return filePath;
+	}
+
+	private static void prepareYamlForIndexes(Table table, BufferedWriter writer) throws IOException {
+		writer.append("extra_definitions: ");
+		writer.newLine();
+		for (SecondaryIndex secondaryIndex : table.getIndexes()) {
+			writer.append("  - ").append(secondaryIndex.toString());
+			writer.newLine();
+		}
 	}
 
 	private static void prepareYamlForKeyspace(BufferedWriter writer) throws IOException {

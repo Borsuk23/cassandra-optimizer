@@ -11,4 +11,6 @@ public interface ProjectionService {
     List<SchemaProjection> generateProjections(Schema inputSchema, List<Query> inputQueries);
 
     List<SchemaProjection> mergeProjections(List<SchemaProjection> schemaProjections);
+
+    List<SchemaProjection> createIndexes(List<SchemaProjection> schemaProjections,List<Query> inputQueries);
 }

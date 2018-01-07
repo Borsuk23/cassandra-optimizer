@@ -19,6 +19,7 @@ public class Table implements Serializable {
 	private ClusteringOrder clusteringOrder;
 	private int recordsNo;
 	private DataDistribution dataDistribution;
+	private List<SecondaryIndex> indexes = new ArrayList<>();
 
 	public Table(String name, int recordsNo, DataDistribution dataDistribution) {
 		this.name = name;

@@ -34,6 +34,7 @@ public class Schema implements Serializable {
 			clonedTable.setClusteringOrder(clusteringOrder);
 
 			clonedTable.getColumns().addAll(table.getColumns());
+			clonedTable.getIndexes().addAll(table.getIndexes());
 			this.getTables().add(clonedTable);
 		}
 	}
