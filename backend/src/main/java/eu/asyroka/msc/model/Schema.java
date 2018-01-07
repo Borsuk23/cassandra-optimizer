@@ -20,11 +20,19 @@ public class Schema implements Serializable {
 	public Schema(Schema inputSchema) {
 		for (Table table : inputSchema.getTables()) {
 			Table clonedTable = new Table(table.getName(), table.getRecordsNo(), table.getDataDistribution());
+
 			PrimaryKey primaryKey = null;
 			if (table.getPrimaryKey() != null) {
 				primaryKey = new PrimaryKey(table.getPrimaryKey());
 			}
 			clonedTable.setPrimaryKey(primaryKey);
+
+			ClusteringOrder clusteringOrder = null;
+			if (table.getClusteringOrder() != null) {
+				clusteringOrder = new ClusteringOrder(table.getClusteringOrder());
+			}
+			clonedTable.setClusteringOrder(clusteringOrder);
+
 			clonedTable.getColumns().addAll(table.getColumns());
 			this.getTables().add(clonedTable);
 		}

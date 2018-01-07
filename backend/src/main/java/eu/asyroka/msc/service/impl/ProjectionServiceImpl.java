@@ -68,8 +68,10 @@ public class ProjectionServiceImpl implements ProjectionService {
 	private boolean compareClusteringOrder(ClusteringOrder inputClusteringOrder, ClusteringOrder comparingClusteringOrder) {
 		if (inputClusteringOrder == null && comparingClusteringOrder == null)
 			return true;
-		if (inputClusteringOrder == null || comparingClusteringOrder == null)
+		if (inputClusteringOrder != null && comparingClusteringOrder == null)
 			return false;
+		if (inputClusteringOrder == null)
+			return true;
 		return inputClusteringOrder.getColumnName().equals(comparingClusteringOrder.getColumnName()) && inputClusteringOrder.getDirection().equals(comparingClusteringOrder.getDirection());
 
 	}
@@ -139,7 +141,15 @@ public class ProjectionServiceImpl implements ProjectionService {
 			if (table.getPrimaryKey() != null) {
 				if (StringUtils.isNotBlank(table.getPrimaryKey().getClusteringKey())) {
 					for (Table tableToMerge : schemaProjection.getSchema().getTables()) {
+						if (tableToMerge.getName().equalsIgnoreCase(table.getName()) && tableToMerge.getClusteringOrder() != null && tableToMerge.getClusteringOrder().getColumnName().equalsIgnoreCase(table.getPrimaryKey().getClusteringKey())) {
+							table.setClusteringOrder(tableToMerge.getClusteringOrder());
+							mergedFlag = true;
+						}
+					}
+				} else {
+					for (Table tableToMerge : schemaProjection.getSchema().getTables()) {
 						if (tableToMerge.getName().equalsIgnoreCase(table.getName()) && tableToMerge.getClusteringOrder() != null) {
+							table.getPrimaryKey().setClusteringKey(tableToMerge.getClusteringOrder().getColumnName());
 							table.setClusteringOrder(tableToMerge.getClusteringOrder());
 							mergedFlag = true;
 						}

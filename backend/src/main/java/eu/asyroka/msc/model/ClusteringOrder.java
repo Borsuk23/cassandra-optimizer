@@ -16,6 +16,11 @@ public class ClusteringOrder implements Serializable {
 	}
 
 
+	public ClusteringOrder(ClusteringOrder objectToClone) {
+		this.columnName = objectToClone.getColumnName();
+		this.direction = objectToClone.getDirection();
+	}
+
 	public ClusteringOrder() {
 	}
 

@@ -62,7 +62,7 @@ public class YamlUtils {
 		writer.append("columnspec:");
 		writer.newLine();
 		for (Column column : table.getColumns()) {
-			writer.append("  - name:").append(column.getName());
+			writer.append("  - name: ").append(column.getName());
 			writer.newLine();
 			prepareYamlForColumnSize(column, writer);
 			if (table.getPrimaryKey() != null) {
@@ -156,7 +156,7 @@ public class YamlUtils {
 		writer.append("queries:");
 		writer.newLine();
 		for (Query query : queries) {
-			writer.append("  ").append(query.getQueryName());
+			writer.append("  ").append(query.getQueryName()).append(":");
 			writer.newLine();
 			writer.append("    cql: ").append(query.toString()).append(" ALLOW FILTERING");
 			writer.newLine();
